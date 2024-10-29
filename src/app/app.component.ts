@@ -8,7 +8,7 @@ import { jello, pulse, shakeX } from 'ng-animate';
   styleUrls: ['./app.component.css'],
   animations: [
     trigger('death', [transition(':increment', useAnimation(shakeX, {params: {timing: 1}}))]),
-    trigger('attack', [transition(':increment', useAnimation(pulse, {params: {timing: 0.6, scale:4.5}}))]),
+    trigger('attack', [transition(':increment', useAnimation(pulse, {params: {timing: 0.3, scale:4.5}}))]),
     trigger('preAttack', [transition(':increment', useAnimation(jello, {params: {timing: 1}}))]),
   ]
 })
@@ -16,6 +16,7 @@ export class AppComponent {
   slimeIsPresent = false;
   css_hit = false;
   css_bounce = false;
+  css_vibrate = false;
   ng_death = 0;
   ng_attack = 0;
   ng_preAttack = 0;
@@ -43,7 +44,12 @@ export class AppComponent {
     // TODO Jouer une animation et augmenter l'intensité du mouvement avec scale
     // TODO Jouer une autre animation avant
     this.ng_preAttack++;
-    setTimeout(() => this.ng_attack++, 600);
+    setTimeout(() => {
+      this.ng_attack++;
+      setTimeout(() => this.css_vibrate = true, 600);
+    }, 600);
+    
+    //setTimeout(() => this.css_vibrate = false, 600);
   }
 
   hit(){
